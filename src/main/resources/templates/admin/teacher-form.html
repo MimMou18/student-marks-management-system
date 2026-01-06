@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin-layout :: layout(~{::content}, ~{::scripts})}">
+
+<th:block th:fragment="content">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Teachers > [[${operation_type}]] Teacher</h1>
+            <a th:href="@{/admin/teachers}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to List
+            </a>
+        </div>
+
+        <div th:if="${success_message}" class="alert alert-success alert-dismissible fade show">
+            <strong>Success!</strong> [[${success_message}]]
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-10">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Teacher Details</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <!-- body here -->
+                        <form th:action="@{${operation_type == 'Add' ? '/admin/teachers/create' : '/admin/teachers/update'}}" th:object="${teacher}" method="post">
+                            <ul th:if="${#fields.hasGlobalErrors()}">
+                                <li th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="error"></li>
+                            </ul>
+
+                            <label>
+                                <input hidden class="form-control" type="text" th:field="*{id}"/>
+                            </label>
+
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input class="form-control" type="text" th:field="*{name}" placeholder="Enter teacher name" id="name" />
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error"></li>
+                                </ul>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designation">Designation:</label>
+                                <input class="form-control" type="text" th:field="*{designation}" placeholder="Enter teacher name" id="designation" required/>
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('designation')}" th:text="${err}" class="error"></li>
+                                </ul>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input class="form-control" type="email" th:field="*{email}" placeholder="Enter email address" id="email" required/>
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error"></li>
+                                </ul>
+                            </div>
+
+<!--                            <div class="form-group">-->
+<!--                                <label for="password">Password:</label>-->
+<!--                                <input class="form-control" type="password" th:field="*{password}" placeholder="Enter password" id="password" required/>-->
+<!--                                <ul>-->
+<!--                                    <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error"></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE SCRIPTS -->
+    <th:block th:fragment="scripts">
+        <script></script>
+    </th:block>
+</th:block>
+
+</html>

@@ -1,0 +1,7 @@
+package com.sdlc.pro.smms.exception;
+
+public class InvalidEnrollmentException extends RuntimeException {
+    public InvalidEnrollmentException(String message) {
+        super(message);
+    }
+}
