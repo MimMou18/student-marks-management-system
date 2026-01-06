@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/student-layout :: layout(~{::content}, ~{::scripts})}">
+
+<th:block th:fragment="content">
+    <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Courses: [[${marks_response.courseCode}]] ([[${marks_response.courseTitle}]])</h1>
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+                <!-- Area Chart -->
+                <div class="col-xl-6 col-lg-6">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Class Test Marks</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>CT No</th>
+                                        <th>Marks</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="ct_mark : ${marks_response.ctMarks}">
+                                        <td th:text="${'CT - ' + ct_mark.testNo}"></td>
+                                        <td th:text="${ct_mark.marks}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+
+    <!-- PAGE SCRIPTS -->
+    <th:block th:fragment="scripts">
+        <script>
+
+        </script>
+    </th:block>
+
+
+</th:block>
+
+</html>

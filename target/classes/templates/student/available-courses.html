@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/student-layout :: layout(~{::content}, ~{::scripts})}">
+
+<th:block th:fragment="content">
+    <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Available Courses</h1>
+            </div>
+
+            <div th:if="${success_message}" class="alert alert-success alert-dismissible fade show">
+                <strong>Success!</strong> [[${success_message}]]
+            </div>
+
+            <div th:if="${error_message}" class="alert alert-danger alert-dismissible fade show">
+                <strong>Failed!</strong> [[${error_message}]]
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+                <!-- Area Chart -->
+                <div class="col-xl-12 col-lg-10">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Current Semester Courses</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Course Title</th>
+                                        <th>Course Teacher</th>
+                                        <th>Semester</th>
+                                        <th>Year</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="info : ${available_courses}">
+                                        <td th:text="${info.courseCode}"></td>
+                                        <td th:text="${info.courseTitle}"></td>
+                                        <td th:text="${info.teacherName}"></td>
+                                        <td th:text="${info.semester}"></td>
+                                        <td th:text="${info.year}"></td>
+                                        <td th:if="${info.enrolled}">
+                                            <a th:href="@{'/student/courses/marks/' + ${info.enrollmentId}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> View Marks</a>
+                                        </td>
+                                        <td th:if="${not info.enrolled}">
+                                            <form th:action="@{/student/courses/enroll}" method="post">
+                                                <input type="hidden" name="offeredCourseId" th:value="${info.offeredCourseId}" />
+                                                <button class="btn btn-success btn-sm"><i class="fa fa-check"></i> Enroll Now</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+
+    <!-- PAGE SCRIPTS -->
+    <th:block th:fragment="scripts">
+        <script>
+
+        </script>
+    </th:block>
+
+
+</th:block>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/teacher-layout :: layout(~{::content}, ~{::scripts})}">
+
+
+<th:block th:fragment="content">
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Courses > Details</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+      <!-- Course Info -->
+      <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Course Info</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Course code</th>
+                  <th>Course Title</th>
+                  <th>Semester</th>
+                  <th>Year</th>
+                  <th>Total Student</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td th:text="${course_details.code}"></td>
+                    <td th:text="${course_details.title}"></td>
+                    <td th:text="${course_details.semester}"></td>
+                    <td th:text="${course_details.year}"></td>
+                    <td th:text="${course_details.getTotalStudent()}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Info -->
+      <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Student Info</h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Roll</th>
+                  <th>Name</th>
+                  <th>CT Marks</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stu : ${course_details.students}">
+                  <td th:text="${stu.roll}"></td>
+                  <td th:text="${stu.name}"></td>
+                  <td>
+                      <th:block th:each="ct : ${stu.ctMarks}">
+                        <span>CT-[[${ct.testNo}]] : [[${ct.marks}]]</span>
+                      </th:block>
+                  </td>
+                  <td>
+                    <a th:href="@{'/teacher/courses/marks/'+${stu.enrollmentId}}" type="button" class="btn btn-info btn-sm">Update CT Marks</a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE SCRIPTS -->
+  <th:block th:fragment="scripts">
+    <script>
+
+      $(document).ready(function () {
+
+        $(".ct-marks-form").submit(function (e){
+          e.preventDefault();
+
+          const formData = $(this).serialize();
+          console.log(formData);
+
+        });
+
+      });
+
+      /*
+      $(document).ready(function () {
+        const courseTable = $('#course-table').DataTable({
+          serverSide: true,
+          processing: true,
+          pageLength: 10,
+          ajax: {
+            type: "POST",
+            url: "/teacher/courses/datatable",
+            contentType: "application/json;charset=UTF-8",
+            data: function (data) {
+              return JSON.stringify(data);
+            }
+          },
+          columnDefs: [
+            {
+              orderable: false,
+              targets: [6]
+            }
+          ],
+          columns: [
+            {data: 'id', visible: false},
+            {data: 'courseCode'},
+            {data: 'courseTitle'},
+            {data: 'courseTeacher'},
+            {data: 'semester'},
+            {data: 'year'},
+            {
+              data: null,
+              render: function (course) {
+                return `<a href="/teacher/courses/details/${course.id}" type="button" class="btn btn-info btn-sm action-btn"><i class="fas fa-eye"></i></a>`;
+              }
+            }
+          ]
+        });
+      })
+
+
+       */
+    </script>
+  </th:block>
+</th:block>
+
+</html>
